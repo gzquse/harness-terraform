@@ -14,3 +14,4 @@ terraform import harness_encrypted_text.aws_access_key 8dVhhqd8Q1iyZpx5EnXEmg
 terraform import harness_application.peg twwqiq5AS3qN4OjyGYLNug
 terraform import harness_git_connector.sipedge HvKCOpt8S-yFsi-rnEUQnA
 terraform import harness_git_connector.ziqguo 4GZ-jI77TMGguAAg6Vue0w
+terraform import harness_encrypted_text.wbx3-aws_access_key aMAyBCcMRIKSh89zN0iu5Q

@@ -8,22 +8,22 @@ variable "github_token" {
 
 variable "application_name" {
   description = "The name of the Harness application to be created."
-  default = "Pegasus"
+  default     = "Pegasus"
 }
 
 variable "prefix" {
   description = "A prefix to use to ensure account level settings are unique (i.e. cloud providers, secrets, connectors, etc.)."
-  default = "test"
+  default     = "test"
 }
 
 variable "repository_url" {
   description = "The url of the repository to be cloned."
-  default = "https://sqbu-github.cisco.com/ziqguo/terraform-provider.git"
+  default     = "https://sqbu-github.cisco.com/ziqguo/terraform-provider.git"
 }
 
 variable "repository_branch" {
   description = "The branch of the repository to use for the git connector."
-  default = "master"
+  default     = "master"
 }
 
 

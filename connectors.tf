@@ -1,7 +1,3 @@
-data "harness_secret_manager" "default" {
-  default = true
-}
-
 resource "harness_encrypted_text" "github_token" {
   name              = "${var.prefix}-github-token"
   value             = var.github_token
@@ -26,9 +22,7 @@ resource "harness_git_connector" "ziqguo" {
   generate_webhook_url = true
 }
 
-#data "harness_secret_manager" "secret_manager" {
-#  name = "keeper-wbxd-harness-sandbox"
-#}
+
 #
 #output "harness_secret_manager" {
 #  description = "keeper-wbxd-harness-sandbox"

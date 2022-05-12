@@ -1,8 +1,3 @@
-#resource "harness_application" "app" {
-#  name        = "SandboxSipEdge"
-#  description = "Sandbox for SipEdge testing purpose"
-#}
-
 resource "harness_git_connector" "sipedge" {
   name                 = "sqbu-github SandboxSipEdge Application"
   url                  = "https://sqbu-github.cisco.com/SIPEdge/harness-SandboxSipEdge.git"
