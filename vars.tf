@@ -26,4 +26,36 @@ variable "repository_branch" {
   default     = "master"
 }
 
+variable "harness_env_name" {
+  description = "Harness environment name"
+  default = "int301"
+}
 
+variable "harness_infra_name" {
+  description = "Harness infrastructure name"
+  default = "aiadwxt-1"
+}
+
+variable "cnc_name" {
+  description = "Comand and control name"
+  default = "hfedev"
+}
+
+variable "delegate_name" {
+  description = "Harness delegate name"
+  default = "hfedev-pegasus02"
+}
+
+variable "cloud" {
+  description = "Name of the Command and Control Panel"
+  default = "hfedev"
+}
+
+output "api_base_url" {
+  value = "https://asd:8433/"
+}
+
+variable "cluster_name" {
+  description = "Kubernetes cluster name"
+  default = 'int-301'
+}

@@ -38,6 +38,26 @@ resource "harness_cloudprovider_aws" "aws" {
 }
 
 data "harness_delegate" "pegasus02" {
-  name   = "hfedev-pegasus02"
+  name   = var.delegate_name
   status = "ENABLED"
+}
+
+resource "harness_cloudprovider_kubernetes" "pegasus_k8s" {
+  name = "${var.prefix}-${var.harness_env_name}-${var.harness_infra_name}"
+
+  authentication {
+    delegate_selectors = ["${var.delegate_name}"]
+  }
+
+  usage_scope {
+    environment_filter_type = "NON_PRODUCTION_ENVIRONMENTS"
+  }
+
+  usage_scope {
+    environment_filter_type = "PRODUCTION_ENVIRONMENTS"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
