@@ -42,22 +42,40 @@ data "harness_delegate" "pegasus02" {
   status = "ENABLED"
 }
 
-resource "harness_cloudprovider_kubernetes" "pegasus_k8s" {
-  name = "${var.prefix}-${var.harness_env_name}-${var.harness_infra_name}"
+data "harness_application" "app" {
+  for_each = toset(var.application_list)
+  name = each.key
+}
+
+resource "harness_cloudprovider_kubernetes" "cloud_provider" {
+  name = "${var.cloud_provider_prefix} -- ${var.harness_env_name} -- ${var.harness_infra_name}"
 
   authentication {
-    delegate_selectors = ["${var.delegate_name}"]
+    delegate_selectors = [var.delegate_name]
   }
 
-  usage_scope {
-    environment_filter_type = "NON_PRODUCTION_ENVIRONMENTS"
+  dynamic "usage_scope" {
+    for_each = data.harness_application.app
+    content {
+      environment_filter_type = "NON_PRODUCTION_ENVIRONMENTS"
+      application_id          = usage_scope.value.id
+    }
   }
 
-  usage_scope {
-    environment_filter_type = "PRODUCTION_ENVIRONMENTS"
+  dynamic "usage_scope" {
+    for_each = data.harness_application.app
+    content {
+      environment_filter_type = "PRODUCTION_ENVIRONMENTS"
+      application_id          = usage_scope.value.id
+    }
   }
 
   lifecycle {
     create_before_destroy = true
   }
+
+  depends_on = [data.harness_application.app]
 }
+
+
+

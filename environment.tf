@@ -1,30 +1,54 @@
-data "harness_application" "app"{
-  name = "Pegasus"
+locals {
+  default_app = "Webex"
+  variables   = [
+    {
+      name  = "CDP_REGION"
+      value = "override"
+      type  = "TEXT"
+    },
+    {
+      name  = "DEPLOY_CLUSTER"
+      value = var.cluster_name
+      type  = "TEXT"
+    },
+    {
+      name  = "DEPLOY_ENV"
+      value = var.harness_env_name
+      type  = "TEXT"
+    },
+    {
+      name  = "Harness_Delegate"
+      value = var.delegate_name
+      type  = "TEXT"
+    }
+  ]
+}
+
+data "harness_application" "env_app" {
+  name                         = "Pegasus"
   is_manual_trigger_authorized = false
   description                  = "Create Pegasus app"
 }
 
-resource "harness_environment" "dev" {
-  app_id = data.harness_application.app.id
+data "harness_application" "application" {
+  for_each = toset(var.application_list)
+  name     = each.key
+}
+
+resource "harness_environment" "env" {
+  for_each = data.harness_application.application
+
+  app_id = each.value.id
   name   = var.harness_env_name
   type   = var.cloud == "mccprod" ? "PROD" : "NON_PROD"
 
-  variable_override {
-    name  = "DEPLOY_CLUSTER"
-    value = var.cluster_name
-    type  = "TEXT"
-  }
-
-  variable_override {
-    name  = "DEPLOY_ENV"
-    value = var.harness_env_name
-    type  = "TEXT"
-  }
-
-  variable_override {
-    name  = "Harness_Delegate"
-    value = var.delegate_name
-    type  = "TEXT"
+  dynamic "variable_override" {
+    for_each = each.value.name == local.default_app ? local.variables : []
+    content {
+      name  = variable_override.value["name"]
+      value = variable_override.value["value"]
+      type  = variable_override.value["type"]
+    }
   }
 
   lifecycle {
@@ -32,18 +56,19 @@ resource "harness_environment" "dev" {
   }
 }
 
-resource "harness_infrastructure_definition" "k8s_dev" {
-  name                = "k8s-dev"
-  app_id              = harness_application.peg.id
-  env_id              = harness_environment.dev.id
+resource "harness_infrastructure_definition" "infra" {
+  for_each = harness_environment.env
+
+  name                = var.harness_infra_name
+  app_id              = each.value.app_id
+  env_id              = each.value.id
   cloud_provider_type = "KUBERNETES_CLUSTER"
-  deployment_type     = "KUBERNETES"
+  deployment_type     = "HELM"
 
   kubernetes {
-    cloud_provider_name = harness_cloudprovider_kubernetes.pegasus_k8s.name
-    namespace           = harness_environment.dev.name
-    release_name        = "$${service.name}"
+    cloud_provider_name = harness_cloudprovider_kubernetes.cloud_provider.name
+    namespace           = "$${serviceVariable.Namespace}"
+    release_name        = "$${infra.kubernetes.infraId}"
   }
-
 }
 

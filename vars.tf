@@ -11,9 +11,21 @@ variable "application_name" {
   default     = "Pegasus"
 }
 
+variable "application_list" {
+  description = "A series of harness application name"
+  default     = ["Webex", "WebexSipEdge"]
+  type        = list(string)
+}
+
+variable "cloud_provider_prefix" {
+  description = "A prefix to use to ensure account level settings are unique (i.e. cloud providers, secrets, connectors, etc.)."
+  default     = "Kubed"
+  type        = string
+}
+
 variable "prefix" {
   description = "A prefix to use to ensure account level settings are unique (i.e. cloud providers, secrets, connectors, etc.)."
-  default     = "test"
+  default     = "Kubed"
 }
 
 variable "repository_url" {
@@ -28,12 +40,12 @@ variable "repository_branch" {
 
 variable "harness_env_name" {
   description = "Harness environment name"
-  default = "int301"
+  default = "WBX3-int301"
 }
 
 variable "harness_infra_name" {
   description = "Harness infrastructure name"
-  default = "aiadwxt-1"
+  default = "int301"
 }
 
 variable "cnc_name" {
@@ -57,5 +69,5 @@ output "api_base_url" {
 
 variable "cluster_name" {
   description = "Kubernetes cluster name"
-  default = 'int-301'
+  default = "int-third"
 }
