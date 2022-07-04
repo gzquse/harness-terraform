@@ -4,7 +4,10 @@ terraform {
       source = "harness/harness"
     }
     vault = {
-      version               = ">=3.3.1"
+      version = ">=3.3.1"
+    }
+    null = {
+      version = "3.1.1"
     }
   }
 }

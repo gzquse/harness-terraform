@@ -40,27 +40,27 @@ variable "repository_branch" {
 
 variable "harness_env_name" {
   description = "Harness environment name"
-  default = "WBX3-int301"
+  default     = "WBX3-int301"
 }
 
 variable "harness_infra_name" {
   description = "Harness infrastructure name"
-  default = "int301"
+  default     = "int301"
 }
 
 variable "cnc_name" {
   description = "Comand and control name"
-  default = "hfedev"
+  default     = "hfedev"
 }
 
 variable "delegate_name" {
   description = "Harness delegate name"
-  default = "hfedev-pegasus02"
+  default     = "hfedev-pegasus02"
 }
 
 variable "cloud" {
   description = "Name of the Command and Control Panel"
-  default = "hfedev"
+  default     = "hfedev"
 }
 
 output "api_base_url" {
@@ -69,5 +69,5 @@ output "api_base_url" {
 
 variable "cluster_name" {
   description = "Kubernetes cluster name"
-  default = "int-third"
+  default     = "int-third"
 }

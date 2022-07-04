@@ -1,6 +1,6 @@
 locals {
   default_app = "Webex"
-  variables   = [
+  variables = [
     {
       name  = "CDP_REGION"
       value = "override"

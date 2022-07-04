@@ -1,3 +1,7 @@
+locals {
+  delegate_name = "wbx3-harness-delegate-${var.cluster_name}"
+}
+
 data "harness_secret_manager" "default" {
   default = true
 }
@@ -44,7 +48,7 @@ data "harness_delegate" "pegasus02" {
 
 data "harness_application" "app" {
   for_each = toset(var.application_list)
-  name = each.key
+  name     = each.key
 }
 
 resource "harness_cloudprovider_kubernetes" "cloud_provider" {
